@@ -18,7 +18,7 @@ def entry_point(path):
         try: 
             operation, num1, num2 = parse_vars(ops, path)
         except Exception as e:
-            return str(e), 400
+            return str(e), 400, {'Content-Type': 'text/plain'}
 
         result = ops[operation](num1, num2)
         if request.method == "GET":
@@ -27,7 +27,7 @@ def entry_point(path):
             return jsonify({"result": result}), 200, {'Content-Type': 'application/json'}
             
     except Exception as e:
-        return str(e), 500 #, {'Content-Type': 'text/plain'} if request.method == "GET" else {'Content-Type': 'application/json'}
+        return str(e), 500, {'Content-Type': 'text/plain'}
 
 def parse_vars(ops, path):
     if request.method == "GET":
