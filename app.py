@@ -11,7 +11,7 @@ def entry_point(path):
         "multiply": mult,
         "divide": div
     }
-    if request.method == "GET" and path == "":
+    if request.method in ["GET", "HEAD"]  and path == "":
         return "Hello Ian, welcome to my HTTP server - I trust you know how to use it", 200, {'Content-Type': 'text/plain'}
     try:
 
@@ -21,7 +21,7 @@ def entry_point(path):
             return str(e), 400, {'Content-Type': 'text/plain'}
 
         result = ops[operation](num1, num2)
-        if request.method == "GET":
+        if request.method in ["GET", "HEAD"]:
             return str(result), 200, {'Content-Type': 'text/plain'}
         else:
             return jsonify({"result": result}), 200, {'Content-Type': 'application/json'}
@@ -30,7 +30,7 @@ def entry_point(path):
         return str(e), 500, {'Content-Type': 'text/plain'}
 
 def parse_vars(ops, path):
-    if request.method == "GET":
+    if request.method in ["GET", "HEAD"]:
         vars = [var for var in path.split("/") if var]
         if len(vars) > 0:
             if vars[0] in ops:
