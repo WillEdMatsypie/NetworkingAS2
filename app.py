@@ -50,13 +50,13 @@ def parse_vars(ops, path):
         if json_data:
             if "operation" in json_data and json_data["operation"] in ops:
                 operation = json_data["operation"]
-                if "arguments" in json_data and len(json_data["arguments"]) == 2:
+                if "arguments" in json_data and isinstance(json_data["arguments"], list) and len(json_data["arguments"]) == 2:
                     if validate_number(json_data["arguments"][0]) and validate_number(json_data["arguments"][1]):
                         return operation, float(json_data["arguments"][0]), float(json_data["arguments"][1])
                     else:
                         raise TypeError('Incorrect argument types, 2 NUMBERS must be supplied. Usage: {"operation": "<operation>", "arguments": [ <num1>, <num2> ]}')
                 else:
-                    raise ValueError('Invalid arguments, 2 must be supplied. Usage: {"operation": "<operation>", "arguments": [ <num1>, <num2> ]}')
+                    raise ValueError('Invalid arguments, 2 must be supplied in a list. Usage: {"operation": "<operation>", "arguments": [ <num1>, <num2> ]}')
             else:
                 raise Exception('Invalid operation type, valid operations are add, subtract, multiply and divide. Usage: {"operation": "<operation>", "arguments": [ <num1>, <num2> ]}')
         else:
