@@ -12,12 +12,12 @@ def entry_point(path):
         "divide": div
     }
     if request.method in ["GET", "HEAD"]  and path == "":
-        if any([value in request.headers["Accept"] for value in ["*/*", "text/*", "text/html"]]):
-            try:
-                return render_template('docs.html'), 200, {'Content-Type': 'text/html'}
-            except Exception:
+        try:
+            if any([value in request.headers["Accept"] for value in ["*/*", "text/*", "text/html"]]):
+                    return render_template('docs.html'), 200, {'Content-Type': 'text/html'}
+            else:
                 return "Hello Ian, welcome to my HTTP server. There is some Documentation HTML which would have been rendered but it seems like your browser either doesn't support HTML or the file couldn't be found so apologies for that.", 200, {'Content-Type': 'text/plain'}
-        else:
+        except Exception:
             return "Hello Ian, welcome to my HTTP server. There is some Documentation HTML which would have been rendered but it seems like your browser either doesn't support HTML or the file couldn't be found so apologies for that.", 200, {'Content-Type': 'text/plain'}
     try:
 
