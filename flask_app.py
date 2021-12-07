@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 
 app = Flask(__name__)
 
@@ -12,7 +12,13 @@ def entry_point(path):
         "divide": div
     }
     if request.method in ["GET", "HEAD"]  and path == "":
-        return "Hello Ian, welcome to my HTTP server - I trust you know how to use it", 200, {'Content-Type': 'text/plain'}
+        if request.headers["Accept"] in ["*/*", "text/*", "text/html"]:
+            try:
+                return render_template('docs.html'), 200, {'Content-Type': 'text/html'}
+            except Exception:
+                return "Hello Ian, welcome to my HTTP server. There is some Documentation HTML which would have been rendered but it seems like your browser either doesn't support HTML or the file couldn't be found so apologies for that.", 200, {'Content-Type': 'text/plain'}
+        else:
+            return "Hello Ian, welcome to my HTTP server. There is some Documentation HTML which would have been rendered but it seems like your browser either doesn't support HTML or the file couldn't be found so apologies for that.", 200, {'Content-Type': 'text/plain'}
     try:
 
         try: 
@@ -88,4 +94,4 @@ def div(num1, num2):
     if num2 != 0:
         return num1 / num2
     else:
-        raise ZeroDivisionError("Division by 0")
+        raise ZeroDivisionError("Division by 0 is not valid")

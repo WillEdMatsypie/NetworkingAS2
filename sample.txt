@@ -1,4 +1,4 @@
 curl -X POST \
     -H "Content-Type: application/json" \
-    -d '{"operation": "add", "arguments": [10, -3.2]}' \
-    http://127.0.0.1:5000/
+    -d '{"operation": "add","arguments": [ 4, 6 ]}' \
+    https://wxm856.pythonanywhere.com/
