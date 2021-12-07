@@ -25,9 +25,12 @@ def entry_point(path):
             return str(result), 200, {'Content-Type': 'text/plain'}
         else:
             return jsonify({"result": result}), 200, {'Content-Type': 'application/json'}
-            
+    
+    except ZeroDivisionError as e:
+        return str(e), 422, {'Content-Type': 'text/plain'}
     except Exception as e:
-        return str(e), 500, {'Content-Type': 'text/plain'}
+        print(e)
+        return "Internal Server Error, something went wrong, oops", 500, {'Content-Type': 'text/plain'}
 
 def parse_vars(ops, path):
     if request.method in ["GET", "HEAD"]:
@@ -85,4 +88,4 @@ def div(num1, num2):
     if num2 != 0:
         return num1 / num2
     else:
-        raise Exception("Division by 0")
+        raise ZeroDivisionError("Division by 0")
