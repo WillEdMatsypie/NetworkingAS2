@@ -12,7 +12,7 @@ def entry_point(path):
         "divide": div
     }
     if request.method in ["GET", "HEAD"]  and path == "":
-        if request.headers["Accept"] in ["*/*", "text/*", "text/html"]:
+        if any([value in request.headers["Accept"] for value in ["*/*", "text/*", "text/html"]]):
             try:
                 return render_template('docs.html'), 200, {'Content-Type': 'text/html'}
             except Exception:
